@@ -23,8 +23,6 @@ export default {
   props: {
     btcListChartData: Array,
   },
-  loaded: false,
-
   data() {
     return {
       datasets: [
