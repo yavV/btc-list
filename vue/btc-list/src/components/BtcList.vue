@@ -19,7 +19,6 @@ export default {
   data() {
     return {
       btcListGridData: null,
-
       btcListChartData: {
         min: null,
         max: null,
