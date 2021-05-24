@@ -1,0 +1,8 @@
+framework:
+    cache:
+        default_memcached_provider: 'memcached://%env(MEMCACHED_HOST)%:%env(MEMCACHED_PORT)%'
+        pools:
+            http.cache.btc_request:
+                adapter: cache.adapter.memcached
+                public: false
+                default_lifetime: 86400

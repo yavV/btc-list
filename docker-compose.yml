@@ -1,0 +1,66 @@
+version: '2'
+services:
+    db-btc-list:
+        container_name: db-btc-list
+        image: mysql:8.0.22
+        command: ["--default-authentication-plugin=mysql_native_password"]
+        environment:
+            MYSQL_ROOT_PASSWORD: root
+            MYSQL_DATABASE: symfony
+            MYSQL_USER: symfony
+            MYSQL_PASSWORD: symfony
+        networks:
+            btc-list:
+                ipv4_address: 172.210.5.12
+
+    php-fpm-btc-list:
+        container_name: php-fpm-btc-list
+        build:
+            context: ./docker/php-fpm-btc-list
+            args:
+                ENABLE_PHP_XDEBUG: 1
+        volumes:
+            - ./symfony/btc-list-api:/var/www/symfony
+        depends_on:
+            - db-btc-list
+        networks:
+            btc-list:
+                ipv4_address: 172.210.5.11
+
+    nginx-btc-list:
+        container_name: nginx-btc-list
+        build: ./docker/nginx
+        depends_on:
+            - php-fpm-btc-list
+        volumes:
+            - ./logs/nginx:/var/log/nginx
+            - ./symfony/btc-list-api:/var/www/symfony
+        networks:
+            btc-list:
+                ipv4_address: 172.210.5.10
+
+    vue-btc-list:
+        container_name: vue-btc-list
+        build:
+            context: ./docker/vue-btc-list
+        volumes:
+            - ./vue/btc-list:/app
+        networks:
+            btc-list:
+                ipv4_address: 172.210.5.13
+                
+    memcached-btc-list:
+        container_name: memcached-btc-list
+        image: memcached:latest
+        networks:
+            btc-list:
+                ipv4_address: 172.210.5.14
+
+networks:
+    btc-list:
+        driver: bridge
+        ipam:
+            driver: default
+            config:
+                - subnet: 172.210.5.0/24
+                  gateway: 172.210.5.1

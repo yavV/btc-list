@@ -1,0 +1,38 @@
+<!DOCTYPE>
+<html>
+<head>
+    <script type="text/javascript" src="{{ asset('js/jquery-3.6.0.min.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('js/currency-exchange-rate.js') }}"></script>
+</head>
+<body>
+<div>
+    <label for="currency">Выберите валюту</label>
+    <select id="currency">
+        {% for currency in currencies %}
+            <option value="{{ currency.id }}">{{ currency.name }}</option>
+        {% endfor %}
+    </select>
+
+    <label for="currency">Выберите базовую валюту</label>
+    <select id="currencyBase">
+        {% for currency in currencies %}
+            {% set selected = '' %}
+            {% if currency.name is same as('RUR') %}
+                {% set selected = 'selected' %}
+            {% endif %}
+            <option value="{{ currency.id }}" {{ selected }}>{{ currency.name }}</option>
+        {% endfor %}
+    </select>
+
+    <label for="date">Дата:</label>
+    <input type="date" id="date" name="date">
+
+    <button onclick="getCurrenciesExchangeRate(this); return false;">Получить курс</button>
+</div>
+
+<div>
+    <p id="infoText"></p>
+</div>
+
+</body>
+</html>
