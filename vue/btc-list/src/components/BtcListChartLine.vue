@@ -13,14 +13,16 @@
 </template>
 
 <script>
-import TrendChart from "vue-trend-chart";
+import TrendChart from 'vue-trend-chart';
 
 export default {
-  name: "BtcListChartLine",
+  name: 'BtcListChartLine',
   components: {
     TrendChart,
   },
-  props: ['btcListChartData'],
+  props: {
+    btcListChartData: Array,
+  },
   loaded: false,
 
   data() {
@@ -30,28 +32,28 @@ export default {
           data: null,
           smooth: true,
           showPoints: true,
-          className: "curve1"
+          className: 'curve1',
         },
         {
           data: null,
           smooth: true,
           showPoints: true,
-          className: "curve2"
+          className: 'curve2',
         },
         {
           data: null,
           smooth: true,
           showPoints: true,
-          className: "curve3"
+          className: 'curve3',
         },
       ],
       grid: {
         verticalLines: true,
-        horizontalLines: true
+        horizontalLines: true,
       },
       labels: {
         yLabels: 10,
-        yLabelsTextFormatter: val => Math.round(val )
+        yLabelsTextFormatter: (val) => Math.round(val),
       },
     };
   },
@@ -59,14 +61,14 @@ export default {
     btcListChartData: {
       immediate: true,
       deep: true,
-      handler (val, oldVal) {
+      handler(val) {
         this.datasets[0].data = val.min;
         this.datasets[1].data = val.max;
         this.datasets[2].data = val.avg;
-      }
-    }
+      },
+    },
   },
-}
+};
 </script>
 
 <style>

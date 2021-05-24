@@ -16,13 +16,13 @@ export default {
     Grid,
   },
   props: {
-    'btcListGridData': Array
+    btcListGridData: Array,
   },
   data() {
     return {
       cols: ['Min', 'Max', 'AVG'],
       pagination: true,
-      width: "50%",
+      width: '50%',
     };
   },
 };
